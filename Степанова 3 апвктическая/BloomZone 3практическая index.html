@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloomZone - Доставка цветов по всему миру</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Шапка сайта -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">BloomZone</h1>
+            <nav class="nav">
+                <a href="#" class="nav-link">Каталог</a>
+                <a href="#" class="nav-link">О нас</a>
+                <a href="#" class="nav-link">Контакты</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Главный баннер -->
+    <section class="hero">
+        <div class="container">
+            <h2>Подарите эмоции с помощью свежих цветов</h2>
+            <p>Быстрая доставка букетов для любого повода. Сделайте день ваших близких особенным!</p>
+            <a href="#" class="btn-cta">Выбрать букет</a>
+        </div>
+    </section>
+
+    <!-- Каталог товаров -->
+    <section class="catalog">
+        <div class="container">
+            <h2>Популярные букеты</h2>
+            <div class="cards-grid">
+                <!-- Карточка товара 1 -->
+                <div class="card">
+                    <img src="https://placehold.co/300x200/E0F7FA/black?text=Розы" alt="Букет роз" class="card-img">
+                    <div class="card-body">
+                        <h3 class="card-title">Нежные розы</h3>
+                        <p class="card-price">от 1500 ₽</p>
+                        <button class="btn-card" data-name="Нежные розы" data-price="1500">Добавить в корзину</button>
+                    </div>
+                </div>
+
+                <!-- Карточка товара 2 -->
+                <div class="card">
+                    <img src="https://placehold.co/300x200/F8BBD0/black?text=Тюльпаны" alt="Букет тюльпанов" class="card-img">
+                    <div class="card-body">
+                        <h3 class="card-title">Весенние тюльпаны</h3>
+                        <p class="card-price">от 900 ₽</p>
+                        <button class="btn-card" data-name="Весенние тюльпаны" data-price="900">Добавить в корзину</button>
+                    </div>
+                </div>
+
+                <!-- Карточка товара 3 -->
+                <div class="card">
+                    <img src="https://placehold.co/300x200/C5E1A5/black?text=Смешанный" alt="Смешанный букет" class="card-img">
+                    <div class="card-body">
+                        <h3 class="card-title">Яркий микс</h3>
+                        <p class="card-price">от 1200 ₽</p>
+                        <button class="btn-card" data-name="Яркий микс" data-price="1200">Добавить в корзину</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Корзина -->
+    <section id="cart" class="cart">
+        <div class="container">
+            <h2>Ваша корзина</h2>
+            <ul id="cart-items"></ul>
+            <p id="total-price">Итого: 0 ₽</p>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
