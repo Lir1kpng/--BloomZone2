@@ -2,80 +2,652 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BloomZone - Доставка цветов по всему миру</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+    <title>BloomZone — цветы с доставкой</title>
+    <!-- Подключаем шрифты: Nunito (основной) и Montserrat (для акцентов) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== 1. ГЛОБАЛЬНЫЙ СБРОС И БАЗОВЫЕ СТИЛИ ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', Roboto, sans-serif;
+            background-color: #FDF5F0;  /* очень светлый кремовый фон */
+            color: #4A4A4A;             /* мягкий тёмно-серый */
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Контейнер-обёртка для центрирования контента */
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ===== 2. ШАПКА (HEADER) ===== */
+        .header {
+            background-color: rgba(253, 245, 240, 0.92);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            padding: 0.9rem 0;
+            border-bottom: 1px solid rgba(225, 180, 184, 0.25);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem 1.5rem;
+        }
+
+        /* ---- Логотип (слева) ---- */
+        .logo {
+            font-family: 'Montserrat', 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: -0.3px;
+            color: #4A4A4A;
+            text-decoration: none;
+        }
+        .logo span {
+            color: #E1B4B8;  /* пыльно-розовый акцент */
+        }
+
+        /* ---- Строка поиска (по центру) ---- */
+        .search-form {
+            flex: 1 1 280px;
+            display: flex;
+            background: #ffffff;
+            border-radius: 60px;
+            border: 1px solid #f0e4e0;
+            overflow: hidden;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            max-width: 480px;
+        }
+        .search-form:focus-within {
+            border-color: #E1B4B8;
+            box-shadow: 0 0 0 3px rgba(225, 180, 184, 0.25);
+        }
+        .search-form input {
+            flex: 1;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.95rem;
+            background: transparent;
+            outline: none;
+            font-family: 'Nunito', sans-serif;
+            color: #4A4A4A;
+        }
+        .search-form input::placeholder {
+            color: #b8a8a4;
+        }
+        .search-form button {
+            background: transparent;
+            border: none;
+            padding: 0 1.1rem;
+            color: #8a7a76;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.25s;
+        }
+        .search-form button:hover {
+            color: #E1B4B8;
+        }
+
+        /* ---- Правая часть: корзина + вход ---- */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+        .header-actions a {
+            text-decoration: none;
+            color: #4A4A4A;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: color 0.25s;
+        }
+        .header-actions a:hover {
+            color: #E1B4B8;
+        }
+        .cart-icon {
+            font-size: 1.3rem;
+        }
+        .cart-icon span {
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+
+        /* Кнопка "Войти" в акцентном цвете */
+        .login-btn {
+            background-color: #E1B4B8;
+            color: #ffffff !important;
+            padding: 0.4rem 1.2rem;
+            border-radius: 60px;
+            font-weight: 700;
+            transition: background-color 0.25s, transform 0.15s;
+        }
+        .login-btn:hover {
+            background-color: #d49ea3 !important;
+            color: #ffffff !important;
+            transform: scale(1.02);
+        }
+
+        /* ===== 3. ГЛАВНЫЙ ЭКРАН (HERO) ===== */
+        .hero {
+            /* Фоновое изображение с наложением полупрозрачного кремового слоя */
+            background: linear-gradient(135deg, rgba(253, 245, 240, 0.65) 0%, rgba(253, 245, 240, 0.45) 100%),
+                        url('https://images.unsplash.com/photo-1545232979-0a3f2575d8e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80') center center / cover no-repeat;
+            background-color: #f5e8e0;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            padding: 3rem 0;
+            position: relative;
+        }
+        /* Дополнительный полупрозрачный слой для читаемости */
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(253, 245, 240, 0.15);
+            backdrop-filter: brightness(1.02) blur(0.5px);
+            z-index: 1;
+        }
+        .hero .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+        .hero h1 {
+            font-family: 'Montserrat', 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: clamp(2.4rem, 7vw, 4rem);
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+            color: #3a3a3a;
+            text-shadow: 0 2px 20px rgba(253, 245, 240, 0.6);
+            letter-spacing: -0.5px;
+        }
+        .hero p {
+            font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+            margin-bottom: 2rem;
+            color: #5a4a46;
+            text-shadow: 0 2px 12px rgba(253, 245, 240, 0.5);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+        }
+
+        /* ---- Кнопка CTA (призыв к действию) в акцентном цвете ---- */
+        .btn-primary {
+            display: inline-block;
+            background-color: #E1B4B8;
+            color: #ffffff;
+            font-weight: 700;
+            padding: 0.9rem 3rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-size: 1.15rem;
+            transition: background-color 0.25s, transform 0.15s, box-shadow 0.25s;
+            box-shadow: 0 8px 28px rgba(225, 180, 184, 0.35);
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background-color: #d49ea3;
+            transform: scale(1.02);
+            box-shadow: 0 12px 36px rgba(225, 180, 184, 0.5);
+        }
+
+        /* ===== 4. СЕКЦИЯ КАТЕГОРИЙ ===== */
+        .categories {
+            padding: 4rem 0 3rem;
+            background-color: #FDF5F0;
+        }
+
+        /* ---- Заголовок секции ---- */
+        .section-title {
+            font-family: 'Montserrat', 'Nunito', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 2.2rem;
+            color: #4A4A4A;
+            letter-spacing: -0.3px;
+        }
+
+        /* ---- Сетка карточек категорий (Grid) ---- */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.8rem;
+        }
+
+        /* ---- Карточка категории ---- */
+        .category-card {
+            background: #ffffff;
+            border-radius: 32px;
+            padding: 1.2rem 0.8rem 1.5rem;
+            text-align: center;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(225, 180, 184, 0.12);
+        }
+        .category-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(225, 180, 184, 0.12);
+            border-color: #E1B4B8;
+        }
+        .category-card img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 40px;
+            background: #f0e4e0;
+            display: block;
+            margin-bottom: 0.7rem;
+        }
+        .category-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            font-family: 'Montserrat', 'Nunito', sans-serif;
+            color: #4A4A4A;
+        }
+
+        /* ---- Кнопка "Смотреть" (обводка в акцентном цвете) ---- */
+        .btn-outline {
+            display: inline-block;
+            margin-top: 0.4rem;
+            padding: 0.3rem 1.6rem;
+            border-radius: 60px;
+            border: 1.5px solid #E1B4B8;
+            color: #4A4A4A;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.25s, color 0.25s;
+        }
+        .btn-outline:hover {
+            background-color: #E1B4B8;
+            color: #ffffff;
+        }
+
+        /* ===== 5. СЕКЦИЯ «ХИТЫ ПРОДАЖ» ===== */
+        .featured {
+            padding: 3.5rem 0 4.5rem;
+            background-color: #ffffff;
+        }
+
+        /* ---- Сетка товаров ---- */
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 2rem;
+        }
+
+        /* ---- Карточка товара ---- */
+        .product-card {
+            background: #FDF5F0;
+            border-radius: 32px;
+            padding: 1.2rem 1.2rem 1.8rem;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            text-align: center;
+            border: 1px solid transparent;
+        }
+        .product-card:hover {
+            border-color: #E1B4B8;
+            box-shadow: 0 12px 36px rgba(225, 180, 184, 0.12);
+            transform: translateY(-4px);
+        }
+        .product-card img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 40px;
+            background: #e8dcd8;
+            display: block;
+            margin-bottom: 0.7rem;
+        }
+        .product-card h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: 'Montserrat', 'Nunito', sans-serif;
+            margin: 0.2rem 0 0.1rem;
+            color: #4A4A4A;
+        }
+        .product-card .price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #E1B4B8;
+            margin: 0.2rem 0 0.8rem;
+        }
+
+        /* ---- Кнопка "Добавить в корзину" в акцентном цвете ---- */
+        .btn-add {
+            background: #E1B4B8;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 60px;
+            font-weight: 700;
+            color: #ffffff;
+            transition: background-color 0.25s, transform 0.15s;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.95rem;
+        }
+        .btn-add:hover {
+            background: #d49ea3;
+            transform: scale(1.02);
+        }
+
+        /* ===== 6. ФУТЕР ===== */
+        .footer {
+            background-color: #FDF5F0;  /* мягкий кремовый фон */
+            padding: 2.8rem 0 1.5rem;
+            margin-top: auto;
+            border-top: 1px solid rgba(225, 180, 184, 0.2);
+        }
+        .footer .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+        }
+        .footer-col {
+            flex: 1 1 180px;
+        }
+        .footer .logo {
+            font-size: 1.8rem;
+        }
+
+        /* ---- Ссылки в футере (акцентный цвет при наведении) ---- */
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .footer-links a {
+            color: #4A4A4A;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.25s;
+        }
+        .footer-links a:hover {
+            color: #E1B4B8;
+        }
+
+        /* ---- Иконки социальных сетей ---- */
+        .social-icons {
+            display: flex;
+            gap: 1.2rem;
+            margin-top: 0.4rem;
+        }
+        .social-icons a {
+            font-size: 1.5rem;
+            text-decoration: none;
+            color: #6a5a56;
+            transition: color 0.25s, transform 0.2s;
+        }
+        .social-icons a:hover {
+            color: #E1B4B8;
+            transform: translateY(-3px);
+        }
+
+        /* ---- Копирайт ---- */
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.8rem;
+            margin-top: 1.5rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.04);
+            width: 100%;
+            font-size: 0.9rem;
+            color: #8a7a76;
+        }
+
+        /* ============================================================
+           7. АДАПТИВНОСТЬ (МОБИЛЬНАЯ И ПЛАНШЕТНАЯ ВЕРСИИ)
+           ============================================================ */
+
+        /* ---- Планшеты и небольшие ноутбуки (до 768px) ---- */
+        @media (max-width: 768px) {
+            .header .container {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .search-form {
+                order: 3;
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+            .header-actions {
+                margin-left: auto;
+            }
+            .hero {
+                min-height: 70vh;
+            }
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .featured-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+            .footer .container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+
+        /* ---- Мобильные телефоны (до 480px) ---- */
+        @media (max-width: 480px) {
+            .header .container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .header-actions {
+                justify-content: flex-end;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .categories-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+            .featured-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+            .btn-primary {
+                padding: 0.7rem 2rem;
+                font-size: 1rem;
+            }
+            .section-title {
+                font-size: 1.6rem;
+            }
+            .logo {
+                font-size: 1.5rem;
+            }
+            .cart-icon {
+                font-size: 1.1rem;
+            }
+            .login-btn {
+                padding: 0.3rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* ---- Очень маленькие экраны (до 360px) ---- */
+        @media (max-width: 360px) {
+            .categories-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.8rem;
+            }
+            .featured-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.8rem;
+            }
+            .category-card {
+                padding: 0.8rem 0.5rem 1rem;
+            }
+            .product-card {
+                padding: 0.8rem 0.8rem 1.2rem;
+            }
+            .container {
+                padding: 0 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Шапка сайта -->
-    <header class="header">
-        <div class="container">
-            <h1 class="logo">BloomZone</h1>
-            <nav class="nav">
-                <a href="#" class="nav-link">Каталог</a>
-                <a href="#" class="nav-link">О нас</a>
-                <a href="#" class="nav-link">Контакты</a>
-            </nav>
-        </div>
-    </header>
+    <!-- ===== ШАПКА ===== -->
+<header class="header">
+    <div class="container">
+        <!-- Логотип слева (ссылка на главную страницу) -->
+        <a href="index.html" class="logo">Bloom<span>Zone</span></a>
 
-    <!-- Главный баннер -->
+        <!-- Строка поиска по центру -->
+        <form class="search-form" action="#" method="get">
+            <input type="search" placeholder="Поиск букетов..." aria-label="Поиск по сайту">
+            <button type="submit" aria-label="Найти">🔍</button>
+        </form>
+
+        <!-- Корзина, ссылка "О нас", кнопка "Войти" справа -->
+        <div class="header-actions">
+            <a href="#" class="cart-icon">🛒 <span>0</span></a>
+            <!-- Новая ссылка "О нас" -->
+            <a href="https://flowwow.com/izhevsk/?utm_referrer=https%3A%2F%2Fwww.google.com%2F" class="about-link" target="_blank" rel="noopener noreferrer">О нас</a>
+            <!-- Кнопка "Войти" -->
+            <a href="https://ru.pinterest.com/" class="login-btn" target="_blank" rel="noopener noreferrer">Войти</a>
+        </div>
+    </div>
+</header>
+
+    <!-- ===== ГЛАВНЫЙ ЭКРАН (HERO) ===== -->
     <section class="hero">
+    <div class="container">
+        <h1>Подарите нежность с BloomZone</h1>
+        <p>Свежие цветы с доставкой к вашему порогу</p>
+        <!-- Обновлённая кнопка -->
+        <a href="https://flowwow.com/izhevsk/all-products" class="btn-primary" target="_blank" rel="noopener noreferrer">Выбрать букет</a>
+    </div>
+</section>
+
+    <!-- ===== СЕКЦИЯ КАТЕГОРИЙ ===== -->
+    <section class="categories">
         <div class="container">
-            <h2>Подарите эмоции с помощью свежих цветов</h2>
-            <p>Быстрая доставка букетов для любого повода. Сделайте день ваших близких особенным!</p>
-            <a href="#" class="btn-cta">Выбрать букет</a>
-        </div>
-    </section>
-
-    <!-- Каталог товаров -->
-    <section class="catalog">
-        <div class="container">
-            <h2>Популярные букеты</h2>
-            <div class="cards-grid">
-                <!-- Карточка товара 1 -->
-                <div class="card">
-                    <img src="https://placehold.co/300x200/E0F7FA/black?text=Розы" alt="Букет роз" class="card-img">
-                    <div class="card-body">
-                        <h3 class="card-title">Нежные розы</h3>
-                        <p class="card-price">от 1500 ₽</p>
-                        <button class="btn-card" data-name="Нежные розы" data-price="1500">Добавить в корзину</button>
-                    </div>
+            <h2 class="section-title">Наши коллекции</h2>
+            <div class="categories-grid">
+                <!-- Карточка "Розы" (изображение из URL) -->
+                <div class="category-card">
+                    <img src="https://content2.flowwow-images.com/data/flowers/1000x1000/09/1765717397_97637809.jpg" alt="Розы" loading="lazy">
+                    <h3>Розы</h3>
+                    <a href="https://flowwow.com/flowers/yarkiy-stilniy-buket-rozo-3135/" class="btn-outline" target="_blank" rel="noopener noreferrer">Смотреть</a>
                 </div>
-
-                <!-- Карточка товара 2 -->
-                <div class="card">
-                    <img src="https://placehold.co/300x200/F8BBD0/black?text=Тюльпаны" alt="Букет тюльпанов" class="card-img">
-                    <div class="card-body">
-                        <h3 class="card-title">Весенние тюльпаны</h3>
-                        <p class="card-price">от 900 ₽</p>
-                        <button class="btn-card" data-name="Весенние тюльпаны" data-price="900">Добавить в корзину</button>
-                    </div>
+                <!-- Карточка "Тюльпаны" (изображение из URL) -->
+                <div class="category-card">
+                    <img src="https://content3.flowwow-images.com/data/flowers/1000x1000/06/1678078347_3349606.jpg" alt="Тюльпаны" loading="lazy">
+                    <h3>Тюльпаны</h3>
+                    <a href="https://flowwow.com/flowers/31-raznocvetniy-tyulpan-4357/" class="btn-outline" target="_blank" rel="noopener noreferrer">Смотреть</a>
                 </div>
-
-                <!-- Карточка товара 3 -->
-                <div class="card">
-                    <img src="https://placehold.co/300x200/C5E1A5/black?text=Смешанный" alt="Смешанный букет" class="card-img">
-                    <div class="card-body">
-                        <h3 class="card-title">Яркий микс</h3>
-                        <p class="card-price">от 1200 ₽</p>
-                        <button class="btn-card" data-name="Яркий микс" data-price="1200">Добавить в корзину</button>
-                    </div>
+                <!-- Карточка "Экзотика" (изображение из интернета) -->
+                <div class="category-card">
+                    <img src="https://content2.flowwow-images.com/data/flowers/1000x1000/95/1774271831_70974595.jpg" alt="Экзотика" loading="lazy">
+                    <h3>Экзотика</h3>
+                    <a href="https://flowwow.com/bakery-products/nabor-frukty-v-shokoladeekzoti/" class="btn-outline" target="_blank" rel="noopener noreferrer">Смотреть</a>
+                </div>
+                <!-- Карточка "Свадебные" (изображение из интернета) -->
+                <div class="category-card">
+                    <img src="https://content2.flowwow-images.com/data/flowers/1000x1000/57/1744699388_98158457.jpg" alt="Свадебные" loading="lazy">
+                    <h3>Свадебные</h3>
+                    <a href="https://flowwow.com/flowers/svadebniy-perepoloh-7656/" class="btn-outline" target="_blank" rel="noopener noreferrer">Смотреть</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Корзина -->
-    <section id="cart" class="cart">
+    <!-- ===== СЕКЦИЯ «ХИТЫ ПРОДАЖ» ===== -->
+    <section class="featured" id="bouquets">
         <div class="container">
-            <h2>Ваша корзина</h2>
-            <ul id="cart-items"></ul>
-            <p id="total-price">Итого: 0 ₽</p>
+            <h2 class="section-title">Хиты продаж</h2>
+            <div class="featured-grid">
+                <!-- Карточка с букетом (изображение из интернета) -->
+                <div class="product-card">
+                    <img src="https://content3.flowwow-images.com/data/flowers/1000x1000/68/1721232150_5981468.jpg" alt="Белые пионы и розы" loading="lazy">
+                    <h4>Белая симфония</h4>
+                    <div class="price">4 250 ₽</div>
+                    <button class="btn-add">Добавить в корзину</button>
+                </div>
+                <!-- Дополнительные карточки с изображениями из интернета -->
+                <div class="product-card">
+                    <img src="https://content2.flowwow-images.com/data/flowers/1000x1000/64/1722506556_94684064.jpg" alt="Нежный букет" loading="lazy">
+                    <h4>Нежное признание</h4>
+                    <div class="price">3 490 ₽</div>
+                    <button class="btn-add">Добавить в корзину</button>
+                </div>
+                <div class="product-card">
+                    <img src="https://content2.flowwow-images.com/data/flowers/1000x1000/59/1777670554_82856559.jpg" alt="Солнечный букет" loading="lazy">
+                    <h4>Солнечный зайчик</h4>
+                    <div class="price">2 890 ₽</div>
+                    <button class="btn-add">Добавить в корзину</button>
+                </div>
+            </div>
         </div>
     </section>
 
-    <script src="script.js"></script>
+    <!-- ===== ФУТЕР ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-col">
+                <a href="#" class="logo">Bloom<span>Zone</span></a>
+                <div style="margin-top:0.5rem; font-size:0.95rem; color:#8a7a76;">Цветы с любовью</div>
+            </div>
+            <div class="footer-col">
+                <div class="footer-links">
+                    <a href="#">О нас</a>
+                    <a href="#">Условия доставки</a>
+                    <a href="#">Контакты</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <div style="font-weight:600; margin-bottom:0.4rem; color:#4A4A4A;">Мы в соцсетях</div>
+                <div class="social-icons">
+                    <a href="#" aria-label="Instagram">📷</a>
+                    <a href="#" aria-label="Telegram">✈️</a>
+                    <a href="#" aria-label="VK">💙</a>
+                    <a href="#" aria-label="WhatsApp">💬</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 BloomZone. Все права защищены.
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
